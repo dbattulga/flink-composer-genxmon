@@ -11,7 +11,7 @@ mqttph.connect()
 number = 0
 
 while True:
-    mqttph.publish("T-1", number)
+    mqttph.publish("T-N", number)
     print (number)
     time.sleep(1) # sleep for seconds
     number += 1

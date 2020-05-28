@@ -6,13 +6,33 @@ import time
 import csv
 import os
 
-mqtt_address = str(sys.argv[1])
-pub_topic = str(sys.argv[2])
-source_file = str(sys.argv[3])
+'''     
+0 - car_make
+1 - car_model
+2 - engine_on
+3 - otonomo_id
+4 - geocoding_city
+5 - time
+6 - latitude
+7 - longitude
+8 - heading
+9 - speed
+10 - provider
+11 - geocoding_country_long
+12 - geocoding_state
+13 - geocoding_town
+14 - ignition
+15 - geocoding_suburb
+16 - geocoding_road
+'''
 
-# mqtt_address = "127.0.0.1"
-# pub_topic = "T-1"
-#source_file = "region-01.csv"
+# mqtt_address = str(sys.argv[1])
+# pub_topic = str(sys.argv[2])
+# source_file = str(sys.argv[3])
+
+mqtt_address = "127.0.0.1"
+pub_topic = "T-1"
+source_file = "region-01.csv"
 
 mqttph = MqttPublishHandler(mqtt_address, '1', 'mqtt-pub', 'mqtt-pub') #host, client id, username & password
 #mqttph = MqttPublishHandler('127.0.0.1', '1', 'mqtt-pub', 'mqtt-pub') #host, client id, username & password
@@ -36,7 +56,9 @@ with open(source_file) as sample:
     delay = 0
     for line in csv1:
         count = 0
-        message = line[12] +":"+ str(time.time()) +":"+ line[6] +":"+ line[7] +":"+ line[0] +":"+ line[1] +":"+ line[2]
+        message = line[12] +":"+ str(time.time()) +":"+ line[6] +":"+ line[7] +":"+ line[0] +":"+ line[1] +":"+ line[2] \
+                  +":"+ line[3] +":"+ line[4] +":"+ line[5] +":"+ line[2] +":"+ line[8] +":"+ line[8] +":"+ line[10] +":"+ line[11] \
+                  +":"+ line[13] +":"+ line[14] +":"+ line[15] +":"+ line[16]
         #message = line
         # I don't remember what the lines indicated
         if line[5] == gen_time:
