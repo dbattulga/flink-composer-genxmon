@@ -8,9 +8,9 @@ def f(msg):
     print(msg)
 
 
-mp = MqttSubscriptionHandler("127.0.0.1", "status-checker", "test", "test") #host, client id, username & password
+mp = MqttSubscriptionHandler("172.16.192.9", "status-checker", "test", "test") #host, client id, username & password
 #mp = MqttSubscriptionHandler("172.16.98.9", "3", "mqtt-sub", "mqtt-sub") #host, client id, username & password
-mp.add_subscription("T-2")
+mp.add_subscription("T-G")
 mp.connect()
 mp.with_on_message_f(f)
 mp.listen()

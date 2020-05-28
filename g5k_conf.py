@@ -74,37 +74,37 @@ conf = (
         #env_name="/grid5000/images/debian9-x64-base-2020032721.tgz"
     )
     #.add_network_conf(network_rennes)
-    #.add_network_conf(network_nantes)
+    .add_network_conf(network_nantes)
     #.add_network_conf(network_sophia)
-    #.add_network_conf(network_luxembourg)
+    .add_network_conf(network_luxembourg)
     #.add_network_conf(network_grenoble)
     #.add_network_conf(network_nancy)
     .add_network_conf(network_lyon)
-    #.add_network_conf(network_lille)
+    .add_network_conf(network_lille)
     # .add_machine(
     #     roles=["control"],
     #     cluster="parapide",
     #     nodes=3,
     #     primary_network=network_rennes
     # )
-    # .add_machine(
-    #     roles=["control"],
-    #     cluster="econome",
-    #     nodes=2,
-    #     primary_network=network_nantes
-    # )
+    .add_machine(
+        roles=["control"],
+        cluster="econome",
+        nodes=1,
+        primary_network=network_nantes
+    )
     # .add_machine(
     #     roles=["control"],
     #     cluster="uvb",
     #     nodes=2,
     #     primary_network=network_sophia
     # )
-    # .add_machine(
-    #     roles=["control"],
-    #     cluster="petitprince",
-    #     nodes=1,
-    #     primary_network=network_luxembourg
-    # )
+    .add_machine(
+        roles=["control"],
+        cluster="petitprince",
+        nodes=1,
+        primary_network=network_luxembourg
+    )
     # .add_machine(
     #     roles=["control"],
     #     cluster="dahu",
@@ -121,15 +121,15 @@ conf = (
         roles=["control"],
         cluster="nova",
         #cluster="taurus",
-        nodes=3,
+        nodes=1,
         primary_network=network_lyon
     )
-    # .add_machine(
-    #     roles=["control"],
-    #     cluster="chiclet",
-    #     nodes=2,
-    #     primary_network=network_lille
-    # )
+    .add_machine(
+        roles=["control"],
+        cluster="chiclet",
+        nodes=1,
+        primary_network=network_lille
+    )
     .finalize()
 )
 
@@ -144,6 +144,7 @@ run_command("curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key a
 run_command('add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"', roles=roles)
 run_command("apt update && apt-cache policy docker-ce", roles=roles)
 run_command("apt install -y docker-ce", roles=roles)
+run_command("pip3 install paho-mqtt", roles=roles)
 
 #install docker-compose
 run_command("sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose", roles=roles)
@@ -153,6 +154,9 @@ run_command("sudo chmod +x /usr/local/bin/docker-compose", roles=roles)
 run_command("rm -rf flinkG5K", roles=roles)
 run_command("git clone https://github.com/jazz09/flinkG5K.git", roles=roles)
 run_command("cd flinkG5K/ && docker-compose up -d", roles=roles)
+
+#pull data generator and monitor stack
+run_command("git clone https://github.com/jazz09/flink-composer-genxmon.git", roles=roles)
 
 #pull and run Mosquitto MQTT broker
 run_command("docker run -dit -p 1883:1883 -p 9001:9001 eclipse-mosquitto", roles=roles)

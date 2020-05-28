@@ -26,15 +26,15 @@ import os
 16 - geocoding_road
 '''
 
-# mqtt_address = str(sys.argv[1])
-# pub_topic = str(sys.argv[2])
-# source_file = str(sys.argv[3])
+mqtt_address = str(sys.argv[1])
+pub_topic = str(sys.argv[2])
+source_file = str(sys.argv[3])
 
-mqtt_address = "127.0.0.1"
-pub_topic = "T-1"
-source_file = "region-01.csv"
+# mqtt_address = "127.0.0.1"
+# pub_topic = "T-1"
+# source_file = "region-01.csv"
 
-mqttph = MqttPublishHandler(mqtt_address, '1', 'mqtt-pub', 'mqtt-pub') #host, client id, username & password
+mqttph = MqttPublishHandler(mqtt_address, source_file, 'mqtt-pub', 'mqtt-pub') #host, client id, username & password
 #mqttph = MqttPublishHandler('127.0.0.1', '1', 'mqtt-pub', 'mqtt-pub') #host, client id, username & password
 mqttph.connect()
 
@@ -44,7 +44,7 @@ source_file = dirpath+"/regional-data/"+source_file
 
 
 def publish(message):
-    print (message)
+    #print (message)
     mqttph.publish(pub_topic, message)
 
 with open(source_file) as sample:
